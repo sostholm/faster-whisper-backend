@@ -4,13 +4,14 @@ from starlette.routing import WebSocketRoute
 from starlette.websockets import WebSocket
 from faster_whisper import WhisperModel
 import uvicorn
+import os
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("whisper_server")
 
 # Initialize the model
-model_size = "medium.en"  # Change this to your desired model size
+model_size = os.getenv("WHISPER_MODEL", "distil-medium.en")
 device = "cpu"  # Change to "cuda" if you want to use GPU
 model = WhisperModel(model_size, device=device, compute_type="int8")
 
