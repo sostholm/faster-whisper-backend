@@ -5,6 +5,7 @@ from starlette.websockets import WebSocket
 from faster_whisper import WhisperModel
 import uvicorn
 import os
+import torch
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -12,7 +13,10 @@ logger = logging.getLogger("whisper_server")
 
 # Initialize the model
 model_size = os.getenv("WHISPER_MODEL", "distil-medium.en")
-device = "cpu"  # Change to "cuda" if you want to use GPU
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+print(f"Using device: {device}")
+
 model = WhisperModel(model_size, device=device, compute_type="int8")
 
 logger.info(f"Loaded Faster Whisper model: {model_size} on {device}")

@@ -1,3 +1,5 @@
 .venv
 .vscode
 buffered_audio.wav
+voice_samples
+server.py
